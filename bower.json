@@ -1,0 +1,25 @@
+{
+  "name": "ysm-spastic-nav",
+  "version": "0.0.0",
+  "homepage": "https://github.com/josephdburdick/ysm-SpasticNav",
+  "authors": [
+    "Joe <josephdburdick@gmail.com>"
+  ],
+  "description": "Spastic Nav based on Jeffery Way's Spastic Nav",
+  "main": "index.html",
+  "keywords": [
+    "lavalamp",
+    "spastic",
+    "nav",
+    "animation"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
