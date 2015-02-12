@@ -1,56 +1,77 @@
+'use strict';
 (function($) {
 
 	$.fn.spasticNav = function(options) {
 	
 		options = $.extend({
-			overlap : 20,
+			overlap : 7,
 			speed : 500,
 			reset : 1500,
-			color : '#0b2b61',
-			easing : 'easeOutExpo'
+			easing : 'linear'
 		}, options);
 	
 		return this.each(function() {
 		
 		 	var nav = $(this),
-		 		currentPageItem = $('#selected', nav),
+		 		currentPageItem = $('#nav-primary-selected', nav),
 		 		blob,
 		 		reset;
 		 		
-		 	$('<li id="blob"></li>').css({
+		 	$('<li id="primary-nav-blob"></li>').css({
 		 		width : currentPageItem.outerWidth(),
 		 		height : currentPageItem.outerHeight() + options.overlap,
 		 		left : currentPageItem.position().left,
-		 		top : currentPageItem.position().top - options.overlap / 2,
-		 		backgroundColor : options.color
+		 		top : currentPageItem.position().top - options.overlap / 2
 		 	}).appendTo(this);
 		 	
-		 	blob = $('#blob', nav);
-		 	
-			$('li:not(#blob)', nav).hover(function() {
+		 	blob = $('#primary-nav-blob', nav);
+					 	
+			$('li:not(#primary-nav-blob)', nav).hover(function() {
 				// mouse over
 				clearTimeout(reset);
-				blob.animate(
-					{
-						left : $(this).position().left,
-						width : $(this).width()
-					},
-					{
-						duration : options.speed,
-						easing : options.easing,
-						queue : false
-					}
-				);
+				if(!Modernizr.csstransitions){
+					blob.animate(
+						{
+							left : $(this).position().left,
+							width : $(this).width()
+						},
+						{
+							duration : options.speed,
+							easing : options.easing,
+							queue : false
+						}
+					);
+				} else {
+					blob.css(
+						{
+							left : $(this).position().left,
+							width : $(this).width()
+						},
+						{
+							duration : options.speed,
+							easing : options.easing,
+							queue : false
+						}
+					);
+				}
 			}, function() {
 				// mouse out	
 				reset = setTimeout(function() {
-					blob.animate({
-						width : currentPageItem.outerWidth(),
-						left : currentPageItem.position().left
-					}, options.speed)
+					if(!Modernizr.csstransitions){
+						blob.animate({
+							width : currentPageItem.outerWidth(),
+							left : currentPageItem.position().left
+						}, options.speed);
+					} else {
+						blob.css({
+							width : currentPageItem.outerWidth(),
+							left : currentPageItem.position().left
+						}, options.speed);
+					}
 				}, options.reset);
-	
+				
 			});
+		 
 		
 		}); // end each
 	
