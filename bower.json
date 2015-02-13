@@ -6,7 +6,7 @@
     "Joe <josephdburdick@gmail.com>"
   ],
   "description": "Spastic Nav based on Jeffery Way's Spastic Nav",
-  "main": "index.html",
+  "main": "js/jquery.spasticNav.js",
   "keywords": [
     "lavalamp",
     "spastic",
