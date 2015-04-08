@@ -11,10 +11,12 @@
 		}, options);
 	
 		return this.each(function() {
-		
+			
 		 	var nav = $(this),
+		 		hasMoved = false,
 		 		isSelected = $('#nav-primary-selected', nav).length ? true : false,
 		 		currentPageItem = (function(){
+
 		 			// if primary nav item selected use it
 		 			if ($('#nav-primary-selected', nav).length){
 		 				return $('#nav-primary-selected', nav);
@@ -35,6 +37,25 @@
 		 	}).appendTo(this);
 		 	
 		 	blob = $('#primary-nav-blob', nav);
+
+		 	if (!isSelected && !hasMoved){
+		 		$('body').on('mousemove', function(e){
+					if (!hasMoved){
+						setTimeout(function(){
+							var positionX = e.clientX - nav.offset().left - (blob.outerWidth() / 2);
+							blob.css({left: positionX + 'px'});
+							hasMoved = true;
+						}, 200)
+					}
+					else{
+						return;
+					}
+				});
+
+				if (hasMoved)
+					$('body').off('mousemove');
+		 	}
+		 	
 					 	
 			$('li:not(#primary-nav-blob)', nav).hover(function() {
 				
@@ -56,6 +77,7 @@
 				else
 					blob.css(transition);
 
+				hasMoved = true;
 			}, function() {
 
 				// mouse out	
@@ -70,9 +92,11 @@
 						blob.animate(transition);
 					else
 						blob.css(transition);
+					
 				}, options.reset);
 				
 			});
+		 
 		
 		}); // end each
 	
