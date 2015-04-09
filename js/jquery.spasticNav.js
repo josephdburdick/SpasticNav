@@ -41,19 +41,17 @@
 		 	if (!isSelected && !hasMoved){
 		 		$('body').on('mousemove', function(e){
 					if (!hasMoved){
+						var positionX;
 						setTimeout(function(){
-							var positionX = e.clientX - nav.offset().left - (blob.outerWidth() / 2);
+							positionX = e.clientX - nav.offset().left - (blob.outerWidth() / 2);
 							blob.css({left: positionX + 'px'});
 							hasMoved = true;
-						}, 200)
+						}, 300);
 					}
 					else{
-						return;
+						$('body').off('mousemove');
 					}
 				});
-
-				if (hasMoved)
-					$('body').off('mousemove');
 		 	}
 		 	
 					 	
