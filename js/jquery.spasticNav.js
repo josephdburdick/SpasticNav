@@ -56,7 +56,6 @@
 		 	
 					 	
 			$('li:not(#primary-nav-blob)', nav).hover(function() {
-				
 				// mouse over
 				transition = {
 					left : $(this).position().left,
@@ -70,10 +69,13 @@
 				};
 
 				clearTimeout(reset);
-				if(!Modernizr.csstransitions)
-					blob.animate(transition);
-				else
-					blob.css(transition);
+				reset = setTimeout(function() {
+					if(!Modernizr.csstransitions)
+						blob.animate(transition);
+					else
+						blob.css(transition);
+					
+				}, options.speed * 2);
 
 				hasMoved = true;
 			}, function() {
