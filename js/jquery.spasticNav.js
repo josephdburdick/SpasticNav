@@ -1,5 +1,5 @@
-'use strict';
 (function($) {
+	'use strict';
 
 	$.fn.spasticNav = function(options) {
 	
@@ -15,7 +15,7 @@
 		 	var nav = $(this),
 		 		hasMoved = false,
 		 		isSelected = $('#nav-primary-selected', nav).length ? true : false,
-		 		currentPageItem = (function(){
+		 		currentPageItem = function(){
 
 		 			// if primary nav item selected use it
 		 			if ($('#nav-primary-selected', nav).length){
@@ -23,16 +23,16 @@
 		 			} else {
 						return nav.find('li').first();	
 		 			}
-		 		})(),
+		 		},
 		 		blob,
 		 		reset,
 		 		transition;
 
 		 	$('<li id="primary-nav-blob"></li>').css({
-		 		width : currentPageItem.outerWidth(),
-		 		height : currentPageItem.outerHeight() + options.overlap,
-		 		left : isSelected ? currentPageItem.position().left : $(this).position().left,
-		 		top : currentPageItem.position().top - options.overlap / 2,
+		 		width : currentPageItem().outerWidth(),
+		 		height : currentPageItem().outerHeight() + options.overlap,
+		 		left : isSelected ? currentPageItem().position().left : $(this).position().left,
+		 		top : currentPageItem().position().top - options.overlap / 2,
 		 		opacity: isSelected ? 1 : 0
 		 	}).appendTo(this);
 		 	
@@ -61,20 +61,20 @@
 					left : $(this).position().left,
 					width : $(this).width(),
 					opacity: 1
-				},
-				{
-					duration : options.speed,
-					easing : options.easing,
-					queue : false
 				};
-
 				clearTimeout(reset);
 				reset = setTimeout(function() {
-					if(!Modernizr.csstransitions)
-						blob.animate(transition);
-					else
+					if(!Modernizr.csstransitions){
+						blob.animate(transition,
+						{
+							duration : options.speed,
+							easing : options.easing,
+							queue : false
+						});
+					}
+					else{
 						blob.css(transition);
-					
+					}
 				}, options.speed * 2);
 
 				hasMoved = true;
@@ -82,16 +82,18 @@
 
 				// mouse out	
 				transition = {
-					width : currentPageItem.outerWidth(),
-					left : isSelected ? currentPageItem.position().left : $(this).position().left,
+					width : currentPageItem().outerWidth(),
+					left : isSelected ? currentPageItem().position().left : $(this).position().left,
 					opacity: isSelected ? 1 : 0
-				}, options.speed;
+				};
 
 				reset = setTimeout(function() {
-					if(!Modernizr.csstransitions)
-						blob.animate(transition);
-					else
+					if(!Modernizr.csstransitions){
+						blob.animate(transition, options.speed);
+					}
+					else{
 						blob.css(transition);
+					}
 					
 				}, options.reset);
 				
