@@ -75,7 +75,7 @@
 					else{
 						blob.css(transition);
 					}
-				}, options.speed * 2);
+				}, options.speed * 0.85);
 
 				hasMoved = true;
 			}, function() {
